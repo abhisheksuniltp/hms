@@ -1,6 +1,6 @@
 # hms
 Hospital Management System
 
-Required packages:
+Required Modules:
 django-widget-tweaks
 xhtml2pdf
