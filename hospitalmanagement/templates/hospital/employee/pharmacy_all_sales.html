@@ -1,0 +1,43 @@
+{% extends 'hospital/employee/employee_base.html' %}
+{% load static %}
+
+
+{% block content%}
+{% include "hospital/employee/employee_panel.html" %}
+
+<script src="{% static 'js/sort.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/sort.css' %}">
+
+<br>
+
+<h2 class = "text-center">TOTAL SALES MADE</h2>
+
+<div class = "container">
+  <table class="table" id="myTable">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" onclick="sortTable(0)" class="headerSortDown">Customer name</th>
+        <th scope="col" onclick="sortTable(1)" class="headerSortDown">Sale Date</th>
+        <th scope="col" onclick="sortTable(2)" class="headerSortDown">Item Bought</th>
+        <th scope="col" onclick="sortTable(3)" class="headerSortDown">Quantity</th>
+        <th scope="col" onclick="sortTable(4)" class="headerSortDown">Unit Price(Rs)</th>
+        <th scope="col" onclick="sortTable(5)" class="headerSortDown">Total Cost</th>
+        <a style="float:right; text-decoration: none; color:Black; " href="/pharmacy-all-sales">Reset</a>
+      </tr>
+    </thead>
+    {% for sale in sales %}
+    <tbody>
+      <tr>
+        <td>{{sale.issuedTo | title}}</td>
+        <td>{{sale.saleDate|date:"d/m/Y D"}}</td>
+        <td>{{sale.itemName | title}}</td>
+        <td>{{sale.quantity}}</td>
+        <td>Rs {{sale.unitPrice}}</td>
+        <td>Rs {{sale.totalPrice}}</td>
+        </td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+{% endblock%}

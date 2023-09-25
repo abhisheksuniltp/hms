@@ -1,0 +1,17 @@
+     th{
+      cursor: pointer;
+    }
+    .headerSortDown:after{
+  content: ' ';
+  position: relative;
+  left: 2px;
+  border: 8px solid transparent;
+}
+
+.headerSortDown:after {
+  top: 10px;
+  border-top-color: silver;
+}
+.headerSortDown {
+  padding-right: 10px;
+}

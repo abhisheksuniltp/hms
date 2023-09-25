@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+    .f-left {
+      float: left;
+    }
+
+    .f-right {
+      float: right;
+    }
+    </style>
+</head>
+<body>
+
+  <nav class="menu" tabindex="0">
+    <div class="smartphone-menu-trigger"></div>
+    <header class="avatar">
+      {% if employee.profile_pic %}
+      <img src="{{employee.profile_pic.url }}" alt="Profile Pic missing" />
+      {% else %}
+          No Profile Pic
+      {% endif %}
+      <br><br>
+      <h6 style="color:white;">Employee</h6>
+      <h2>{{request.user.first_name}}</h2>
+    </header>
+    <ul>
+
+      {% if employee.department == "Reception"%}
+      <a style="color:white; text-decoration:none;" href="/reception-dashboard"><li tabindex="0" class="icon-dashboard"><span>Dashboard</span></li></a>
+      <a style="color:white; text-decoration:none;" href="/reception-book-appointment"><li tabindex="0" class="icon-users"> <span>Book Appointment</span></li></a>
+      <a style="color:white; text-decoration:none;" href="/reception-view-appointment"><li tabindex="0" class="icon-calendar"><span>View Appointments</span></li></a>
+      {% endif %}
+
+      {% if employee.department == "Pharmacy" %}
+      <a style="color:white; text-decoration:none;" href="/pharmacy-dashboard"><li tabindex="0" class="icon-dashboard"><span>Dashboard</span></li></a>
+      <a style="color:white; text-decoration:none;" href="/pharmacy-product"><li tabindex="0" class="icon-shopping-cart"> <span>Product</span></li></a>
+      <a style="color:white; text-decoration:none;" href="/pharmacy-receipts"><li tabindex="0" class="icon-text-document"> <span>Receipts</span></li></a>
+      <a style="color:white; text-decoration:none;" href="/pharmacy-all-sales"><li tabindex="0" class="icon-calendar"><span>All Sales</span></li></a>
+      {% endif %}
+
+      {% if employee.department == "Laboratory" %}
+      <a style="color:white; text-decoration:none;" href="/laboratory-dashboard"><li tabindex="0" class="icon-dashboard"><span>Dashboard</span></li></a>
+      <a style="color:white; text-decoration:none;" href="/laboratory-tests"><li tabindex="0" class="icon-newsletter"> <span>Tests</span></li></a>
+      <a style="color:white; text-decoration:none;" href="/laboratory-all-tests"><li tabindex="0" class="icon-calendar"><span>All Test</span></li></a>
+
+      {% endif %}
+    </ul>
+  </nav>
+
+</body>
+</html>

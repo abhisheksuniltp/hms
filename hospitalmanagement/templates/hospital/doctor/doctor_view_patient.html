@@ -1,0 +1,57 @@
+{% extends 'hospital/doctor/doctor_base.html' %}
+{% block content %}
+{%load static%}
+
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+      color: white;
+    }
+
+
+        .bor{
+    padding:1%; margin-left:2%; border:1px solid transparent;border-radius:4px; border-color:#337ab7;
+    }
+    .tableFixHead          { overflow-y: auto; height: 470px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
+    .tableFixHead h6 { position: sticky; }
+    th{
+      background-color: white;
+    }
+
+  </style>
+
+  <script src="{% static 'js/sort.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/sort.css' %}">
+
+<br><br>
+<div class="container">
+  <div class="bor">
+    <div class="tableFixHead">
+      <h6 class="bg-info" style="padding:10px; text-align:center;">All patients assigned for you
+      <a style="float:right; text-decoration: none; color:white" href="/doctor-view-patient">Reset</a>
+      </h6>
+       <table class="table table-striped" id="myTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable(0)" class="headerSortDown">Name</th>
+            <th onclick="sortTable(1)" class="headerSortDown">Mobile</th>
+            <th onclick="sortTable(2)" class="headerSortDown">Address</th>
+          </tr>
+        </thead>
+        {% for p in patients %}
+        <tr>
+          <td> {{p.patientName}}</td>
+          <td>{{p.patientMobile}}</td>
+          <td>{{p.patientAddress}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock content %}

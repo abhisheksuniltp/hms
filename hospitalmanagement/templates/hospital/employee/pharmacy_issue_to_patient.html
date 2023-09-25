@@ -1,0 +1,79 @@
+{% extends 'hospital/employee/employee_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+{% include "hospital/employee/employee_panel.html" %}
+
+<style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+      color: white;
+    }
+
+
+        .bor{
+    padding:1%; border:1px solid transparent;border-radius:4px; border-color:#337ab7;
+    }
+    .tableFixHead          { overflow-y: auto; height: 490px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
+    .tableFixHead h6 { position: sticky; }
+    th{
+      background-color: white;
+    }
+
+  </style>
+<link rel="stylesheet" href="{% static 'css/popupForm.css' %}">
+ <script src="{% static 'js/sort.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/sort.css' %}">
+
+<div class="container">
+{% include 'hospital/messages.html' %}
+<br>
+  <div class="bor">
+      <font style="font-size:18px;">Patient Name :</font>
+      <font style="font-size:22px;"> {{patient.patientName}} </font>
+      <font style="font-size:20px;"> (Ph: {{patient.patientMobile}})</font>
+      <a style="margin-left:600px;" href="/pharmacy-dashboard"><button class="btn btn-danger">Finish</button></a>
+    <div class="tableFixHead">
+      <h6 class="bg-info" style="padding:10px; text-align:center;">Sale Products</h6>
+       <table class="table table-striped" id="myTable">
+        <thead>
+          <tr>
+              <th onclick="sortTable(0)" class="headerSortDown">Category</th>
+              <th onclick="sortTable(1)" class="headerSortDown">Item Name</th>
+              <th onclick="sortTable(2)" class="headerSortDown">Total Quantity</th>
+              <th onclick="sortTable(3)" class="headerSortDown">Unit Price</th>
+              <th>Quantity</th>
+          </tr>
+        </thead>
+           {% for p in products %}
+           <form action="/pharmacy-sale-confirm" method="post">
+            {% csrf_token %}
+           <tr>
+               <td>{{p.categoryName}}</td>
+               <td>{{p.itemName}}</td>
+               <td>{{p.totalQuantity}}</td>
+               <td>{{p.unitPrice}} Rs</td>
+                   <input type="hidden" name="patientId" value={{patient.id}}>
+                   <input type="hidden" name="itemId" value={{p.id}}>
+                   <input type="hidden" name="unitPrice" value={{p.unitPrice}}>
+
+               <td><input style="width:90px;" type="number" min="0" name="quantity" value="0"></td>
+
+               <td>
+                   <button  type="submit" class="btn btn-success" onclick="return confirm('Are you sure?')" >Buy Item</button>
+               </td>
+           </tr>
+            </form>
+           {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}

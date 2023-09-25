@@ -1,0 +1,75 @@
+{% extends 'hospital/admin/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+      color: white;
+    }
+
+    .row {
+      margin: 100px;
+    }
+
+     .bor{
+    padding:1%; margin:0% 1% 0% 1%; border:1px solid transparent;border-radius:4px; border-color:#337ab7;
+    }
+    .tableFixHead          { overflow-y: auto; height: 480px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
+    .tableFixHead h6 { position: sticky; }
+    th{
+      background-color: white;
+    }
+  </style>
+    <script src="{% static 'js/sort.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/sort.css' %}">
+</head>
+<br><br><br>
+{% include 'hospital/messages.html' %}
+<div class="container">
+  <div class="bor">
+    <div class="tableFixHead">
+      <h6 class="bg-info" style="padding:10px; text-align:center;">Discharge Patients
+      <a style="float:right; text-decoration: none; color:white" href="/admin-discharge-patient">Reset</a>
+      </h6>
+        <table class="table table-striped" id="myTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)" class="headerSortDown">Name</th>
+          <th onclick="sortTable(1)" class="headerSortDown">Mobile</th>
+          <th onclick="sortTable(2)" class="headerSortDown">Admit Date</th>
+          <th onclick="sortTable(3)" class="headerSortDown">Pending Medical Cost</th>
+          <th onclick="sortTable(4)" class="headerSortDown">Pending Lab Tests Cost</th>
+          <th>Discharge</th>
+        </tr>
+      </thead>
+      {% for p in patients %}
+      <tr>
+        <td> {{p.get_name}}</td>
+        <td>{{p.patientMobile}}</td>
+        <td>{{p.admitDate}}</td>
+        <td>{{p.pendingMedicalCharge}} Rs</td>
+        <td>{{p.pendingLabTestCharge}} Rs</td>
+        <td><a class="btn btn-danger btn-xs" href="{% url 'discharge-patient' p.id  %}"
+            onclick="return confirm('Are you sure you want to discharge this Patient ?')">
+          Discharge
+        </a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+
+</div>
+
+{% endblock content %}

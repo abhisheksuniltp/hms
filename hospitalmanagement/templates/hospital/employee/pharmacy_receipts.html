@@ -1,0 +1,41 @@
+{% extends 'hospital/employee/employee_base.html' %}
+{% load static %}
+
+{% block content%}
+{% include "hospital/employee/employee_panel.html" %}
+<br>
+<div class="container">
+  <h3 class="card-header text-center">ALL RECEIPTS</h3><br>
+  {% for sale in sales %}
+  <div class="card">
+    <div class="card-body">
+      <font class="card-title" style="font-size:25px;">Customer : {{sale.issuedTo}}</font>
+      <font class="card-title" style="font-size:25px; float:right;">
+        {% for p in patients %}
+          {% if sale.patientId == p.id %}
+            Ph : {{p.patientMobile}}
+          {% endif %}
+        {% endfor %}
+      </font>
+      <h6 class="card-text">Item : {{sale.itemName}}</h6>
+      <h6 class="card-text">Quantity: {{sale.quantity }}</h6>
+      <font style="font-size:30px;">Total Price : Rs {{ sale.totalPrice }}</font>
+      <font class="card-title" style="font-size:25px; float:right;">
+             Date : {{sale.saleDate|date:"d/m/Y D" }}
+          </font><br>
+      <div style="flex: 1; ">
+        <a href="{% url 'pharmacy-receipt-details' sale.id %}">
+          <input
+            type="submit"
+            value="Final Receipt"
+            class="btn btn-danger"
+            type="button"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+  <br />
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'hospital/admin/admin_base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+
+<head>
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    .note {
+      text-align: center;
+      height: 80px;
+      background: -webkit-linear-gradient(left, #0072ff, #8811c5);
+      color: #fff;
+      font-weight: bold;
+      line-height: 80px;
+    }
+
+    .form-content {
+      padding: 5%;
+      border: 1px solid #ced4da;
+      margin-bottom: 2%;
+    }
+
+    .form-control {
+      border-radius: 1.5rem;
+    }
+
+    .btnSubmit {
+      border: none;
+      border-radius: 1.5rem;
+      padding: 1%;
+      width: 20%;
+      cursor: pointer;
+      background: #0062cc;
+      color: #fff;
+    }
+
+    .menu {
+      top: 50px;
+    }
+  </style>
+
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="{% static 'css/popupForm.css' %}">
+  <script src="{% static 'js/sort.js' %}"></script>
+</head>
+
+<br><br><br>
+{% include 'hospital/messages.html' %}
+
+        <a class="btn btn-warning" style="text-decoration:none; cursor:pointer; margin:0px 0px 10px 14px;;>
+                <button class="btn btn-warning" class="open-button" onclick="openForm()">
+            <h4>Admit Discharged Patient</h4>
+            </button></a>
+
+<div class="form-popup" id="admitForm" style="left:252px; top:60px;">
+  <form action="/admin-admit-patient" class="form-container" method="post">
+      {% csrf_token %}
+      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    <h1>Admit Form</h1>
+    <div class="form-group">
+      <label for="patient"><b>Patient</b></label>
+      <select class="form-control" name="patientId" id="patient" >
+          <option disabled selected value> Patient Name and Mobile Number </option>
+        {% for p in dischargedPatients %}
+          <option value={{p.id}}>{{ p.patientName }}({{ p.patientMobile }})</option>
+        {% endfor %}
+      </select>
+      </div>
+    <button type="submit" class="btn">Admit</button>
+
+    </form>
+    </div>
+<script>
+function openForm() {
+  document.getElementById("admitForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("admitForm").style.display = "none";
+}
+</script>
+
+
+<form method="post" >
+  {% csrf_token %}
+  <div class="container register-form">
+    <div class="form">
+      <div class="note">
+        <p>Register Patient Details</p>
+      </div>
+      <div class="form-content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              {% render_field patientForm.patientName class="form-control" placeholder="Patient Name" %}
+            </div><div class="form-group">
+              {% render_field patientForm.patientMobile class="form-control" placeholder="Mobile Number" %}
+            </div><div class="form-group">
+              {% render_field patientForm.patientAddress class="form-control" placeholder="Patient Address" %}
+            </div>
+            <div class="form-group">
+              {% render_field patientForm.assignedDoctorId class="form-control" placeholder="Doctor" %}
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btnSubmit">Register</button>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock content %}

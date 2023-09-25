@@ -1,0 +1,102 @@
+{% extends 'hospital/employee/employee_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+{% include "hospital/employee/employee_panel.html" %}
+
+<style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+      color: white;
+    }
+
+
+        .bor{
+    padding:1%; border:1px solid transparent;border-radius:4px; border-color:#337ab7;
+    }
+    .tableFixHead          { overflow-y: auto; height: 460px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
+    .tableFixHead h6 { position: sticky; }
+    th{
+      background-color: white;
+    }
+
+  </style>
+  <script src="{% static 'js/sort.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/sort.css' %}">
+      <link rel="stylesheet" href="{% static 'css/popupForm.css' %}">
+
+<script>
+
+function openAddForm() {
+  document.getElementById("testAddForm").style.display = "block";
+}
+
+function closeAddForm() {
+  document.getElementById("testAddForm").style.display = "none";
+}
+
+</script>
+<div class="container">
+    {% include 'hospital/messages.html' %}
+    <button style="height:40px; width:auto; margin-top:17px;" type="button" class="open-button btn btn-success" onclick="openAddForm()">Add New Test</button>
+    <div class="form-popup" id="testAddForm" style="left:260px; top:60px;">
+
+  <form class="form-container" method="post">
+
+      {% csrf_token %}
+      <button type="button" class="btn cancel" onclick="closeAddForm()">Close</button>
+      <h3><b>Add New Test</b></h3>
+      <div class="form-group">
+          <label><b>Test Name</b></label>
+        {% render_field testForm.testName class="form-control" placeholder="Test Name" required=True %}
+      </div>
+      <div class="form-group">
+          <label><b>Price in Rs</b></label>
+        {% render_field testForm.testPrice class="form-control" min='0' placeholder="Price" required=True %}
+      </div>
+
+    <button type="submit" class="btn">Add Test</button>
+
+    </form>
+    </div>
+
+
+  <div class="bor">
+    <div class="tableFixHead">
+      <h6 class="bg-info" style="padding:10px; text-align:center;">All Available Tests
+      <a style="float:right; text-decoration: none; color:white" href="/laboratory-tests">Reset</a>
+      </h6>
+       <table class="table table-striped" id="myTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable(0)" class="headerSortDown">Test Name</th>
+            <th onclick="sortTable(1)" class="headerSortDown">Price</th>
+              <th>Delete</th>
+          </tr>
+        </thead>
+           {% for t in tests %}
+           <tr>
+               <td>{{t.testName}}</td>
+               <td>{{t.testPrice}}</td>
+               <td>
+                  <a class="btn btn-danger btn-xs" href="{% url 'laboratory-delete-test' t.id  %}"
+                    onclick="return confirm('Are you sure you want to delete this?')">
+                      <!-- Trash icon -->
+                      <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                      </span></a>
+              </td>
+           </tr>
+           {% endfor %}
+      </table>
+    </div>
+  </div>
+
+</div>
+
+
+{% endblock content %}

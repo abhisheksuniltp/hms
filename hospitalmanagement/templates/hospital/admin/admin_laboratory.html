@@ -1,0 +1,45 @@
+{% extends 'hospital/admin/admin_base.html' %}
+{% load static %}
+
+{% block content%}
+
+
+<script src="{% static 'js/sort.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/sort.css' %}">
+
+<br><br><br>
+
+<h2 class = "text-center">All Test Results</h2>
+
+<div class = "container">
+  <table class="table" id="myTable">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" onclick="sortTable(0)" class="headerSortDown">Customer name</th>
+        <th scope="col" onclick="sortTable(1)" class="headerSortDown">Test Name</th>
+        <th scope="col" onclick="sortTable(2)" class="headerSortDown">Test Date</th>
+          <th></th>
+      </tr>
+    </thead>
+    {% for test in tests %}
+    <tbody>
+      <tr>
+        <td>{{test.patientName | title}}</td>
+        <td>{{test.testName | title}}</td>
+        <td>{{test.testDate|date:"d/m/Y D"}}</td>
+          <td>    <a href="{% url 'admin-laboratory-receipt-details' test.id %}">
+          <input
+            type="submit"
+            value="Final Receipt"
+            class="btn btn-danger"
+            type="button"
+          />
+        </a>
+
+          </td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
+</div>
+{% endblock%}

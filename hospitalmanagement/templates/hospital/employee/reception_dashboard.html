@@ -1,0 +1,52 @@
+{% extends 'hospital/employee/employee_base.html' %}
+{% load static %}
+
+{% block content %}
+{% include "hospital/employee/employee_panel.html" %}
+<link rel="stylesheet" href="{% static 'css/popupForm.css' %}">
+  <script src="{% static 'js/sort.js' %}"></script>
+
+<center><h4 style="padding:20px; text-align:center; background-color: rgb(40, 45, 100); color:white;">RECEPTION</h4></center>
+<br>
+<div style="margin-bottom: 0px;margin-top: 0px;">
+
+    <center>
+            <a class="btn btn-warning" style="text-decoration:none; cursor:pointer;
+                    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);">
+                <button class="btn btn-warning" class="open-button" onclick="openForm()">
+            <h4>Admit Already <br>Registered & Discharged <br>Patient</h4>
+            </button></a>
+
+    </center>
+    <br>
+    {% include "hospital/card/in_out_patient_card.html" %}
+
+        <div class="form-popup" id="admitForm" style="left:630px; top:140px;">
+  <form action="/reception-admit-patient" class="form-container" method="post">
+      {% csrf_token %}
+      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    <h1>Admit Form</h1>
+    <div class="form-group">
+      <label for="patient"><b>Patient</b></label>
+      <select class="form-control" name="patientId" id="patient" >
+          <option disabled selected value> Patient Name and Mobile Number </option>
+        {% for p in patients %}
+          <option value={{p.id}}>{{ p.patientName }}({{ p.patientMobile }})</option>
+        {% endfor %}
+      </select>
+      </div>
+    <button type="submit" class="btn">Admit</button>
+
+    </form>
+    </div>
+<script>
+function openForm() {
+  document.getElementById("admitForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("admitForm").style.display = "none";
+}
+</script>
+</div>
+{% endblock content %}

@@ -1,0 +1,42 @@
+<html>
+<head>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<br>
+
+<div class="container" style="margin-top:60px;">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h1 class="text-center">TEST RESULT</h1><br>
+          <div>
+          <span><font class="lead">Customer Name: {{receipt.patientName}}</font></span>
+          <span><font class="lead" style="float:right;">Test Name: {{receipt.testName }}</font></span>
+          </div>
+            <span><font class="lead">
+                {% for p in patients %}
+                  {% if receipt.patientId == p.id %}
+                    Phone No. : {{p.patientMobile}}
+                  {% endif %}
+                {% endfor %}
+            </font></span>
+          <span><font class="lead" style="float:right;">
+                  Date : {{receipt.testDate|date:"d/m/Y D"}}
+            </font></span>
+        </div>
+
+        <textarea cols='60' rows='8'>{{receipt.testResult }}</textarea>
+
+      </div>
+    </div>
+  </div>
+</div>
+<a href="/laboratory-all-tests" style="align:bottom; position: fixed;
+  bottom: 23px;
+  left: 28px;"><button class="btn">Go Back</button></a>
+</body>
+</html>

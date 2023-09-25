@@ -1,0 +1,190 @@
+{% extends 'hospital/admin/admin_base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+
+    h6 {
+      color: white;
+    }
+    .bor{
+    padding:1%; margin-left:2%; border:1px solid transparent;border-radius:4px; border-color:#337ab7
+    }
+    .tableFixHead          { overflow-y: auto; height: 240px; width: 650px; }
+    .tableFixHead thead th { position: sticky; top: 0; opacity: 1; }
+    .tableFixHead h6 { position: sticky; }
+    th{
+      background-color: white;
+    }
+  </style>
+</head>
+
+<br><br><br>
+
+<div class="container">
+
+<table>
+<tbody>
+  <tr>
+    <td>
+
+    {% if doctors %}
+      <a style="text-decoration:none;" href="/admin-doctor">
+        <div class="row">
+        <div class="bor">
+            <div class="tableFixHead">
+              <h6 class="bg-info" style="padding:9px; text-align:center;">Recent Doctors</h6>
+              <table class="table table-striped" >
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Department</th>
+                  <th>Mobile</th>
+                  <th>Status</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                {% for d in doctors %}
+                <tr>
+                  <td> {{d.get_name}}</td>
+                  <td>{{d.department}}</td>
+                  <td>{{d.mobile}}</td>
+                  {%if d.status%}
+                  <td> <span class="badge badge-success">Permanent</span></td>
+                  {% else %}
+                  <td> <span class="badge badge-info">On Hold</span></td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+
+            </table>
+          </div>
+        </div>
+      </div>
+      </a>
+      {% else %}
+      <br>
+      <div style="padding:1%; margin-left:1%; width: 465px;"><center><h5 class="bg-danger" style="padding:9px; text-align:center; color:white;">No Recent Doctors</h5></center></div>
+      {% endif %}
+      <br>
+
+    </td>
+
+    <td rowspan="2">
+      {% if appointments %}
+
+        {%if pendingAppointmentCount %}
+        <h6 class="bg-danger" style="padding:10px; text-align:center; width: 400px; margin-left: 63px;">
+          Pending Appointments : {{pendingAppointmentCount}} </h6>
+        {% else %}
+        <h6 class="bg-success" style="padding:10px; text-align:center; width: 400px; margin-left: 63px;">
+          No Pending Appointments </h6>
+        {% endif %}
+
+        <a style="text-decoration:none;" href="/admin-appointment">
+          <div class="row" style="margin-left: 50px;">
+          <div class="bor">
+              <div class="tableFixHead" style="height: 500px; width: 400px; ">
+                <h6 class="bg-info" style="padding:9px; text-align:center;">Recent Appointment </h6>
+                <table class="table table-striped" >
+                <thead >
+                  <tr >
+                    <th>Patient Name</th>
+                    <th>Doctor Name </th>
+                    <th>Status</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+               <!-- List in the order of latest appointments -->
+            {% for a in appointments reversed %}
+               {% for p in patients %}
+               {%if a.patientId == p.id %}  <!-- For relating two models -->
+                <tr>
+                  <td> {{p.patientName}}</td>
+                  <td> {{a.doctorName}}</td>
+                  {%if a.status%}
+                  <td> <span class="badge badge-success">Confirmed</span></td>
+                  {% else %}
+                  <td> <span class="badge badge-info">Pending</span></td>
+                  {% endif %}
+                  {% endif %}
+                </tr>
+                {% endfor %}
+               {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        </a>
+      {% else %}
+      <br>
+      <div style="padding:10px; text-align:center; width: 400px; margin-left: 63px; "><center><h5 class="bg-danger" style="padding:9px; text-align:center; color:white;">No Recent Appointment</h5></center></div>
+      {% endif %}
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+
+      {% if employees %}
+      <a style="text-decoration:none;" href="/admin-employee">
+        <div class="row">
+        <div class="bor">
+            <div class="tableFixHead">
+              <h6 class="bg-info" style="padding:9px; text-align:center;">Recent Employee</h6>
+              <table class="table table-striped" >
+              <thead >
+                <tr >
+                  <th>Name</th>
+                  <th>Department</th>
+                  <th>Mobile</th>
+                  <th>Status</th>
+
+                </tr>
+              </thead>
+              <tbody>
+              {% for d in employees %}
+              <tr>
+                <td> {{d.get_name}}</td>
+                <td>{{d.department}}</td>
+                <td>{{d.mobile}}</td>
+                {%if d.status%}
+                <td> <span class="badge badge-success">Permanent</span></td>
+                {% else %}
+                <td> <span class="badge badge-info">On Hold</span></td>
+                {% endif %}
+
+              </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      </a>
+      {% else %}
+      <br>
+      <div style="padding:1%; margin-left:1%; width: 465px;"><center><h5 class="bg-danger" style="padding:9px; text-align:center; color:white;">No Recent Employees</h5></center></div>
+      {% endif %}
+
+    </td>
+  </tr>
+</tbody>
+</table>
+
+
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,123 @@
+{% extends 'hospital/employee/employee_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+{% include "hospital/employee/employee_panel.html" %}
+
+<style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+      color: white;
+    }
+
+
+        .bor{
+    padding:1%; border:1px solid transparent;border-radius:4px; border-color:#337ab7;
+    }
+    .tableFixHead          { overflow-y: auto; height: 490px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
+    .tableFixHead h6 { position: sticky; }
+    th{
+      background-color: white;
+    }
+
+  </style>
+
+<div class="container">
+    <br>
+{% include 'hospital/messages.html' %}
+
+
+  <div class="bor">
+      <h4>Name : {{issueTo}}</h4>
+    <div class="tableFixHead">
+      <h6 class="bg-info" style="padding:10px; text-align:center;">Confirm Sale</h6>
+       <table class="table table-striped">
+        <thead>
+          <tr>
+
+              <th>Item Name</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+          </tr>
+        </thead>
+           {% for itemId, itemName, unitPrice, quantity in list %}
+           <tr>
+               <td>{{itemName}}</td>
+               <td>{{quantity}}</td>
+               <td>{{unitPrice}}</td>
+           </tr>
+           {% endfor %}
+           <tr colspan="3">
+               <td colspan="3"><h5 style="float:right; margin-right: 265px;">Total Price : {{totalPrice}} Rs</h5></td>
+
+           </tr>
+            <tr>
+                <td colspan="3">
+                    <form action="/pharmacy-sale-confirm" method="post">
+                         {% csrf_token %}
+                    <div style="font-size: 20px; float:right; margin-right:80px;">
+                        Received Amount :
+                        <input required type="number" min="0" name="amountReceived">
+                    </div>
+                </td>
+            </tr>
+           <tr>
+               <td colspan="3">
+                   <div style="font-size: 20px; float:right; margin-right:80px;">
+
+                           <input type="hidden" name="patientId" value={{patientId}}>
+                            <input type="hidden" name="totalPrice" value={{totalPrice}}>
+                            <input type="hidden" name="itemId" value={{itemId}}>
+                            <input type="hidden" name="unitPrice" value={{unitPrice}}>
+                            <input type="hidden" name="quantity" value={{quantity}}>
+
+                            <!--
+                            <input type="hidden" name="itemId" list="items">
+                            <datalist id="items">
+                                {% for i in itemId %}
+                                    <option value='{{i}}'>
+                                {% endfor %}
+                            </datalist>
+                           <input type="hidden" name="unitPrice" list="prices">
+                            <datalist id="prices">
+                                {% for i in unitPrice %}
+                                    <option value='{{i}}'>
+                                {% endfor %}
+                            </datalist>
+                           <input type="hidden" name="quantity" list="qnts">
+                            <datalist id="qnts">
+                                {% for i in quantity %}
+                                    <option value='{{i}}'>
+                                {% endfor %}
+                            </datalist>
+
+
+                       {% for val in itemId %}
+                                <input type="hidden" name="itemId[{{ forloop.counter0 }}]" value="{{ val }}">
+                            {% endfor %}
+                            {% for val in unitPrices %}
+                                <input type="hidden" name="unitPrices[{{ forloop.counter0 }}]" value="{{ val }}">
+                            {% endfor %}
+                            {% for val in quantity %}
+                                <input type="hidden" name="quantity[{{ forloop.counter0 }}]" value="{{ val }}">
+                            {% endfor %}
+
+                            -->
+                           <button type="submit" class="btn btn-success">Confirm Sale</button>
+                       </form>
+                   </div>
+               </td>
+           </tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+
+{% endblock content %}

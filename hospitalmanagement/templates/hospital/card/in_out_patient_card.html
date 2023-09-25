@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% load static %}
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      max-width: 200px;
+      margin: auto;
+      text-align: center;
+      font-family: arial;
+    }
+
+    .title {
+      color: grey;
+      font-size: 18px;
+    }
+
+    button {
+      border: none;
+      outline: 0;
+      display: inline-block;
+      padding: 8px;
+      color: white;
+      background-color: #000;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      font-size: 18px;
+    }
+
+    button:hover,
+    a:hover {
+      opacity: 0.8;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto ;
+      padding: 10px;
+    }
+
+    a:link {
+      text-decoration: none;
+    }
+
+    a {
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div class="grid-container">
+
+    <div class="grid-item">
+      <div class="card">
+        <a href='/reception-add-patient'>
+        <img src="{% static 'images/in_patient.jpg' %}" alt="John" style="width:100%">
+        <p class="title">IN-PATIENT</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <div class="card">
+        <a href="/reception-discharge-patients">
+        <img src="{% static 'images/out_patient.png' %}" alt="John" style="width:100%">
+        <p class="title">OUT-PATIENT</p>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
